@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements fragment.ChangeText, fragment.UpdateText, fragment.Destroy{
     FragmentTransaction ft;
-    DialogFragment myAlert;
     String Text = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements fragment.ChangeTe
     @Override
     public void changeText(String Text) {
         this.Text = Text;
-//        myAlert = new MyAlert(1, Text);
-//        myAlert.show(getSupportFragmentManager(), "alert");
     }
 
     @Override
