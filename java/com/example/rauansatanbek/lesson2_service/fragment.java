@@ -24,15 +24,17 @@ public class fragment extends Fragment implements View.OnClickListener{
         this.which = which;
     }
 
-    public interface ChangeLayout{
-        void change(String Text);
-    }
-
-    ChangeLayout changeLayout;
-
+    public interface ChangeText{void changeText(String Text); }
+    public interface UpdateText { void updateText(); }
+    public interface Destroy { void destroy(); }
+    ChangeText changeText;
+    UpdateText updateText;
+    Destroy destroy;
     @Override
     public void onAttach(Activity context) {
-        changeLayout = (ChangeLayout)context;
+        changeText = (ChangeText)context;
+        updateText = (UpdateText)context;
+        destroy = (Destroy)context;
         super.onAttach(context);
     }
 
@@ -56,11 +58,14 @@ public class fragment extends Fragment implements View.OnClickListener{
                 finish.setOnClickListener(this);
                 break;
         }
-
-
         return view;
     }
 
+    @Override
+    public void onResume() {
+        if(which == 2) updateText.updateText();
+        super.onResume();
+    }
 
     @Override
     public void onClick(View v) {
@@ -68,16 +73,15 @@ public class fragment extends Fragment implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.goTo2:
                 ft.replace(R.id.container, new fragment(R.layout.fragment2, 2));
-                changeLayout.change(text.getText().toString());
+                changeText.changeText(text.getText().toString());
                 break;
             case R.id.goTo3:
                 ft.replace(R.id.container, new fragment(R.layout.fragment3, 3));
                 break;
             case R.id.finish:
+                destroy.destroy();
                 break;
         }
         ft.commit();
     }
-
-
 }
